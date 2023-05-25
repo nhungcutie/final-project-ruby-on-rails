@@ -12,10 +12,10 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "articles#index"
-  resources :customers, path: '/admin/customers'
-  resources :bookings, path: '/admin/bookings'
-  resources :areas, path: '/admin/areas'
-  resources :purposes, path: '/admin/purposes'
-  resources :hotels, path: '/admin/hotels'
-  resources :rooms, path: '/admin/rooms'
+  resources :customers
+  resources :bookings
+  resources :areas
+  resources :purposes
+  resources :hotels
+  resources :rooms
 end

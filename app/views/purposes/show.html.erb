@@ -1,0 +1,29 @@
+<div class="max-w-3xl mx-auto px-4">
+  <div class="flex items-center justify-between">
+    <h1 class="flex-1 font-bold text-3xl">Purpose</h1>
+
+    <div class="flex-wrap lg:flex items-center lg:space-x-3">
+      <%= link_to purposes_path, class: button_class(theme: "transparent") do %>
+      All Purposes
+      <% end %>
+      <%= link_to edit_purpose_path(@purpose), class: button_class(theme:"primary") do %>
+      Edit
+      <% end %>
+    </div>
+  </div>
+
+  <ul class="text-slate-700">
+      <li>
+        <p class="font-semibold">Customer:</p>
+        <p><%= @purpose.customer.customer_code %></p>
+      </li>
+      <li>
+        <p class="font-semibold">Booking:</p>
+        <p><%= @purpose.booking.booking_code %></p>
+      </li>
+      <li>
+        <p class="font-semibold">Their purpose:</p>
+        <p><%= @purpose.their_purpose %></p>
+      </li>
+  </ul>
+</div>

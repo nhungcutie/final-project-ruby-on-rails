@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_08_022339) do
+ActiveRecord::Schema[7.0].define(version: 2023_05_24_073331) do
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.string "name", null: false
     t.text "body"
@@ -49,8 +49,29 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_08_022339) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
-  create_table "books", force: :cascade do |t|
-    t.string "title"
+  create_table "areas", force: :cascade do |t|
+    t.integer "place_code"
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "bookings", force: :cascade do |t|
+    t.integer "booking_code"
+    t.integer "customer_id", null: false
+    t.date "check_in_date"
+    t.date "check_out_date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["customer_id"], name: "index_bookings_on_customer_id"
+  end
+
+  create_table "customers", force: :cascade do |t|
+    t.string "customer_name"
+    t.integer "customer_code"
+    t.string "nationality"
+    t.date "date_birth"
+    t.text "address"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -64,6 +85,37 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_08_022339) do
     t.index ["slug", "sluggable_type", "scope"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type_and_scope", unique: true
     t.index ["slug", "sluggable_type"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type"
     t.index ["sluggable_type", "sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_type_and_sluggable_id"
+  end
+
+  create_table "hotels", force: :cascade do |t|
+    t.string "hotel_name"
+    t.integer "area_id", null: false
+    t.text "location"
+    t.integer "no_emty_room"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["area_id"], name: "index_hotels_on_area_id"
+  end
+
+  create_table "purposes", force: :cascade do |t|
+    t.integer "customer_id", null: false
+    t.integer "booking_id", null: false
+    t.text "their_purpose"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["booking_id"], name: "index_purposes_on_booking_id"
+    t.index ["customer_id"], name: "index_purposes_on_customer_id"
+  end
+
+  create_table "rooms", force: :cascade do |t|
+    t.integer "room_number"
+    t.integer "hotel_id", null: false
+    t.integer "no_adult"
+    t.integer "no_children"
+    t.integer "price"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["hotel_id"], name: "index_rooms_on_hotel_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -83,4 +135,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_08_022339) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "bookings", "customers"
+  add_foreign_key "hotels", "areas"
+  add_foreign_key "purposes", "bookings"
+  add_foreign_key "purposes", "customers"
+  add_foreign_key "rooms", "hotels"
 end
